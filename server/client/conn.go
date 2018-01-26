@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/go-stomp/stomp"
-	"github.com/go-stomp/stomp/frame"
+	"github.com/AccelByte/stomp"
+	"github.com/AccelByte/stomp/frame"
 )
 
 // Maximum number of pending frames allowed to a client.
@@ -55,6 +55,7 @@ func NewConn(config Config, rw net.Conn, ch chan Request) *Conn {
 		subChannel:     make(chan *Subscription, maxPendingWrites),
 		writeChannel:   make(chan *frame.Frame, maxPendingWrites),
 		readChannel:    make(chan *frame.Frame, maxPendingReads),
+		closed:         false,
 		txStore:        &txStore{},
 		subList:        NewSubscriptionList(),
 		subs:           make(map[string]*Subscription),
@@ -62,6 +63,11 @@ func NewConn(config Config, rw net.Conn, ch chan Request) *Conn {
 	go c.readLoop()
 	go c.processLoop()
 	return c
+}
+
+// Checks if this connection is closed
+func (c *Conn) IsClosed() bool {
+	return c.closed
 }
 
 // Write a frame to the connection without requiring
@@ -361,6 +367,8 @@ func (c *Conn) cleanupConn() {
 
 	// Should not hurt to call this if it is already closed?
 	c.rw.Close()
+
+	c.closed = true
 }
 
 // Discard anything on the write channel. These frames

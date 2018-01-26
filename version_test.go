@@ -3,7 +3,7 @@ package stomp_test
 import (
 	"testing"
 
-	"github.com/go-stomp/stomp"
+	"github.com/AccelByte/stomp"
 )
 
 func TestSupportsNack(t *testing.T) {

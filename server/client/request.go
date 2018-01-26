@@ -3,7 +3,7 @@ package client
 import (
 	"strconv"
 
-	"github.com/go-stomp/stomp/frame"
+	"github.com/AccelByte/stomp/frame"
 )
 
 // Opcode used in client requests.

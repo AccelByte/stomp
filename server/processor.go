@@ -6,10 +6,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-stomp/stomp/frame"
-	"github.com/go-stomp/stomp/server/client"
-	"github.com/go-stomp/stomp/server/queue"
-	"github.com/go-stomp/stomp/server/topic"
+	"github.com/AccelByte/stomp/frame"
+	"github.com/AccelByte/stomp/server/client"
+	"github.com/AccelByte/stomp/server/queue"
+	"github.com/AccelByte/stomp/server/topic"
 )
 
 type requestProcessor struct {
@@ -123,7 +123,11 @@ func (proc *requestProcessor) Listen(l net.Listener) {
 		timeout = 0
 		// TODO: need to pass Server to connection so it has access to
 		// configuration parameters.
-		_ = client.NewConn(config, rw, proc.ch)
+		conn := client.NewConn(config, rw, proc.ch)
+
+		if proc.server.ClientConnChan != nil {
+			proc.server.ClientConnChan <- conn
+		}
 	}
 	// This is no longer required for go 1.1
 	panic("not reached")
