@@ -6,6 +6,7 @@ package server
 import (
 	"net"
 	"time"
+	"github.com/AccelByte/stomp/server/client"
 )
 
 // The STOMP server has the concept of queues and topics. A message
@@ -41,6 +42,7 @@ type Server struct {
 	Authenticator Authenticator // Authenticates login/passcodes. If nil no authentication is performed
 	QueueStorage  QueueStorage  // Implementation of queue storage. If nil, in-memory queues are used.
 	HeartBeat     time.Duration // Preferred value for heart-beat read/write timeout, if zero, then DefaultHeartBeat.
+	ClientConnChan chan *client.Conn
 }
 
 // ListenAndServe listens on the TCP network address addr and then calls Serve.

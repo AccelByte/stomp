@@ -1,7 +1,7 @@
 package stomp
 
 import (
-	"github.com/go-stomp/stomp/frame"
+	"github.com/AccelByte/stomp/frame"
 )
 
 // Validator is an interface for validating STOMP frames.

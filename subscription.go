@@ -6,7 +6,7 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/go-stomp/stomp/frame"
+	"github.com/AccelByte/stomp/frame"
 )
 
 const (
