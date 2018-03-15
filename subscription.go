@@ -150,12 +150,6 @@ func (s *Subscription) readLoop(ch chan *frame.Frame) {
 		} else if f.Command == frame.ERROR {
 			state := atomic.LoadInt32(&s.state)
 			if state == subStateActive || state == subStateClosing {
-				message, _ := f.Header.Contains(frame.Message)
-				text := fmt.Sprintf("Subscription %s: %s: ERROR message:%s",
-					s.id,
-					s.destination,
-					message)
-				log.Println(text)
 				contentType := f.Header.Get(frame.ContentType)
 				msg := &Message{
 					Err: &Error{

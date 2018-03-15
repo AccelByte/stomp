@@ -2,7 +2,6 @@ package client
 
 import (
 	"fmt"
-	"io"
 	"log"
 	"net"
 	"strconv"
@@ -132,12 +131,6 @@ func (c *Conn) readLoop() {
 		}
 		f, err := reader.Read()
 		if err != nil {
-			if err == io.EOF {
-				log.Println("connection closed:", c.rw.RemoteAddr())
-			} else {
-				log.Println("read failed:", err, ":", c.rw.RemoteAddr())
-			}
-
 			// Close the read channel so that the processing loop will
 			// know to terminate, if it has not already done so. This is
 			// the only channel that we close, because it is the only one
